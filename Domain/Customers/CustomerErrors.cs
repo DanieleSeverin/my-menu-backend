@@ -1,0 +1,10 @@
+﻿using Domain.Abstractions;
+
+namespace Domain.Customers;
+
+public static class CustomerErrors
+{
+    public static Error NotFound = new(
+    "Customer.Found",
+    "The customer with the specified identifier was not found");
+}

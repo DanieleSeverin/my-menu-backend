@@ -16,12 +16,12 @@ public class Customer
         BusinessId = businessId;
         TableId = tableId;
         OrdersSent = new List<Order>();
-        CurrentOrder = new Order();
+        CurrentOrder = new Order(TableId);
     }
 
     public void SendOrder()
     {
         OrdersSent.Add(CurrentOrder);
-        CurrentOrder = new Order();
+        CurrentOrder = new Order(TableId);
     }
 }

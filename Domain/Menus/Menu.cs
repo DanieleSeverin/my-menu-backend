@@ -5,12 +5,16 @@ namespace Domain.Menus;
 public class Menu
 {
     public Guid Id { get; init; }
+    public string Name { get; init; }
+    public string? Description { get; init; }
     public bool IsActive { get; set; }
     public List<Dish> Dishes { get; init; }
 
-    public Menu()
+    public Menu(string name, string? description)
     {
         Id = Guid.NewGuid();
+        Name = name;
+        Description = description;
         IsActive = false;
         Dishes = new List<Dish>();
     }
