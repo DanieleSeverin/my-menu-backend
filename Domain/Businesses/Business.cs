@@ -5,20 +5,20 @@ namespace Domain.Businesses;
 
 public class Business
 {
-    public Guid Id { get; init; }
+    public BusinessId Id { get; init; }
     public List<Table> Tables { get; init; }
     public List<Menu> Menus { get; init; }
 
     public Business()
     {
-        Id = Guid.NewGuid();
+        Id = BusinessId.New();
         Tables = new List<Table>();
         Menus = new List<Menu>();
     }
 
-    public Table? GetTableById(Guid tableId)
+    public Table? GetTableById(TableId tableId)
     {
-        return Tables.FirstOrDefault(t => t.Id == tableId);
+        return Tables.FirstOrDefault(t => t.Id.Value == tableId.Value);
     }
 
     public void AddTable(Table table)
@@ -26,9 +26,9 @@ public class Business
         Tables.Add(table);
     }
 
-    public void RemoveTable(Guid tableId)
+    public void RemoveTable(TableId tableId)
     {
-        var table = Tables.FirstOrDefault(x => x.Id == tableId);
+        var table = Tables.FirstOrDefault(x => x.Id.Value == tableId.Value);
         if (table is not null)
         {
             Tables.Remove(table);
@@ -40,9 +40,9 @@ public class Business
         Menus.Add(menu);
     }
 
-    public void RemoveMenu(Guid menuId)
+    public void RemoveMenu(MenuId menuId)
     {
-        var menu = Menus.FirstOrDefault(x => x.Id == menuId);
+        var menu = Menus.FirstOrDefault(x => x.Id.Value == menuId.Value);
         if (menu is not null)
         {
             Menus.Remove(menu);

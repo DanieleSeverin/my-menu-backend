@@ -9,7 +9,7 @@ public sealed class BusinessBasicInfoResponse
 
     public BusinessBasicInfoResponse(Business businessEntity, List<MenuBasicInfoResponse> menus)
     {
-        Id = businessEntity.Id;
+        Id = businessEntity.Id.Value;
         Menus = menus;
     }
 }

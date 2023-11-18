@@ -11,7 +11,7 @@ public sealed class DishesResponse
 
     public DishesResponse(Dish dishEntity)
     {
-        Id = dishEntity.Id;
+        Id = dishEntity.Id.Value;
         Name = dishEntity.Name;
         Price = dishEntity.Price;
     }

@@ -10,7 +10,7 @@ public sealed class MenuBasicInfoResponse
 
     public MenuBasicInfoResponse(Menu menuEntity )
     {
-        Id = menuEntity.Id;
+        Id = menuEntity.Id.Value;
         Name = menuEntity.Name;
         Description = menuEntity.Description;
     }

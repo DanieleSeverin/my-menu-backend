@@ -1,17 +1,19 @@
-﻿namespace Domain.Orders;
+﻿using Domain.Dishes;
+
+namespace Domain.Orders;
 
 public class OrderItem
 {
-    public Guid Id { get; init; }
-    public Guid DishId { get; init; }
-    public Guid OrderId { get; init; }
+    public OrderItemId Id { get; init; }
+    public DishId DishId { get; init; }
+    public OrderId OrderId { get; init; }
     public DateTime CreatedAt { get; init; }
     public DateTime? PreparedAt { get; set; }
     public DateTime? DeliveredAt { get; set; }
 
-    public OrderItem(Guid orderId, Guid dishId)
+    public OrderItem(OrderId orderId, DishId dishId)
     {
-        Id = Guid.NewGuid();
+        Id = OrderItemId.New();
         OrderId = orderId;
         DishId = dishId;
         CreatedAt = DateTime.Now;

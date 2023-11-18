@@ -4,7 +4,7 @@ namespace Domain.Menus;
 
 public class Menu
 {
-    public Guid Id { get; init; }
+    public MenuId Id { get; init; }
     public string Name { get; init; }
     public string? Description { get; init; }
     public bool IsActive { get; set; }
@@ -12,7 +12,7 @@ public class Menu
 
     public Menu(string name, string? description)
     {
-        Id = Guid.NewGuid();
+        Id = MenuId.New();
         Name = name;
         Description = description;
         IsActive = false;
@@ -24,9 +24,9 @@ public class Menu
         Dishes.Add(dish);
     }
 
-    public void RemoveDish(Guid dishId)
+    public void RemoveDish(DishId dishId)
     {
-        var dish = Dishes.FirstOrDefault(x => x.Id == dishId);
+        var dish = Dishes.FirstOrDefault(x => x.Id.Value == dishId.Value);
         if (dish is not null)
         {
             Dishes.Remove(dish);

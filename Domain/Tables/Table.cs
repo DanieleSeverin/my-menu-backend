@@ -5,7 +5,7 @@ namespace Domain.Tables;
 
 public class Table
 {
-    public Guid Id { get; init; }
+    public TableId Id { get; init; }
     public int NumberOfSeats { get; set; }
     public List<Customer> Customers { get; init; }
 
@@ -16,7 +16,7 @@ public class Table
             throw new Exception("Number of seats must be > 0.");
         }
 
-        Id = Guid.NewGuid();
+        Id = TableId.New();
         NumberOfSeats = numberOfSeats;
         Customers = new List<Customer>();
     }
@@ -26,9 +26,9 @@ public class Table
         Customers.Add(customer);
     }
 
-    public void RemoveCustomer(Guid customerId)
+    public void RemoveCustomer(CustomerId customerId)
     {
-        var customer = Customers.FirstOrDefault(x => x.Id == customerId);
+        var customer = Customers.FirstOrDefault(x => x.Id.Value == customerId.Value);
         if (customer is not null)
         {
             Customers.Remove(customer);

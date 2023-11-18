@@ -1,17 +1,22 @@
-﻿namespace Domain.Orders;
+﻿using Domain.Customers;
+
+namespace Domain.Orders;
 
 public class Order
 {
-    public Guid Id { get; init; }
-    public Guid TableId { get; init; }
-    private bool Sent { get; set; }
+    public OrderId Id { get; init; }
+    public CustomerId CustomerId { get; init; }
+    public bool Sent { get; set; }
 
     private readonly List<OrderItem> _items = new();
 
-    public Order(Guid tableId)
+    // Navigation property to the Customer
+    public Customer Customer { get; set; }
+
+    public Order(CustomerId customerId)
     {
-        Id = Guid.NewGuid();
-        TableId = tableId;
+        Id = OrderId.New();
+        CustomerId = customerId;
         Sent = false;
         _items = new List<OrderItem>();
     }

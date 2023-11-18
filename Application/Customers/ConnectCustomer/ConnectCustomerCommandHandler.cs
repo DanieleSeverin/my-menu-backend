@@ -35,7 +35,7 @@ internal sealed class ConnectCustomerCommandHandler : ICommandHandler<ConnectCus
         }
 
         // Check if the Table is linked to the Business
-        var connectedTable = business.GetTableById(request.TableId);
+        var connectedTable = business.GetTableById(new TableId(request.TableId));
         if (connectedTable is null)
         {
             return Result.Failure<Guid>(BusinessErrors.TableNotFound);
@@ -50,13 +50,15 @@ internal sealed class ConnectCustomerCommandHandler : ICommandHandler<ConnectCus
         }
 
         // Create Customer
-        Customer customer = new Customer(request.BusinessId, request.TableId);
+        Customer customer = new Customer(
+            new BusinessId(request.BusinessId), 
+            new TableId(request.TableId));
 
         // Save Customer
         _customerRepository.Add(customer);
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return customer.Id;
+        return customer.Id.Value;
     }
 }
