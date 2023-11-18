@@ -1,17 +1,25 @@
 ﻿using Domain.Dishes;
 using Domain.Menus;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories;
 
 internal sealed class DishRepository : IDishRepository
 {
-    public Task<Dish?> GetByIdAsync(DishId id)
+    private readonly ApplicationDbContext DbContext;
+
+    public DishRepository(ApplicationDbContext dbContext)
     {
-        throw new NotImplementedException();
+        DbContext = dbContext;
     }
 
-    public Task<List<Dish>> GetByMenuIdAsync(MenuId menuId)
+    public async Task<Dish?> GetByIdAsync(DishId id)
     {
-        throw new NotImplementedException();
+        return await DbContext.Set<Dish>().FirstOrDefaultAsync(d => d.Id == id);
+    }
+
+    public async Task<List<Dish>> GetByMenuIdAsync(MenuId menuId)
+    {
+        return await DbContext.Set<Dish>().Where(d => d.MenuId == menuId).ToListAsync();
     }
 }
