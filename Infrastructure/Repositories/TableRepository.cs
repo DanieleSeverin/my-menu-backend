@@ -1,16 +1,26 @@
-﻿using Domain.Tables;
+﻿using Domain.Businesses;
+using Domain.Tables;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories;
 
 internal sealed class TableRepository : ITableRepository
 {
-    public void Add(Table table)
+    private readonly ApplicationDbContext DbContext;
+
+    public TableRepository(ApplicationDbContext dbContext)
     {
-        throw new NotImplementedException();
+        DbContext = dbContext;
     }
 
-    public Task<Table?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+    public void Add(Table table)
     {
-        throw new NotImplementedException();
+        DbContext.Add<Table>(table);
+    }
+
+    public async Task<Table?> GetByIdAsync(TableId id, CancellationToken cancellationToken = default)
+    {
+        return await DbContext.Set<Table>()
+            .FirstOrDefaultAsync(b => b.Id == id, cancellationToken);
     }
 }

@@ -14,16 +14,12 @@ internal sealed class CustomerRepository : ICustomerRepository
 
     public void Add(Customer customer)
     {
-        throw new NotImplementedException();
+        DbContext.Add<Customer>(customer);
     }
 
-    public async Task<List<Customer>> GetAllAsync()
+    public async Task<Customer?> GetByIdAsync(CustomerId id, CancellationToken cancellationToken = default)
     {
-        return await DbContext.Set<Customer>().ToListAsync();
-    }
-
-    public Task<Customer?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
-    {
-        throw new NotImplementedException();
+        return await DbContext.Set<Customer>()
+            .FirstOrDefaultAsync(b => b.Id == id, cancellationToken);
     }
 }

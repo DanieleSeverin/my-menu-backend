@@ -1,8 +1,6 @@
-﻿using Application.Customers.GetCustomers;
+﻿using Application.Customers.ConnectCustomer;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Api.Controllers
 {
@@ -17,12 +15,12 @@ namespace Api.Controllers
             _sender = sender;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Get(CancellationToken cancellationToken)
+        [HttpPost("connect/{BusinessId}/{TableId}")]
+        public async Task<IActionResult> ConnectCustomer(Guid BusinessId, Guid TableId, CancellationToken cancellationToken)
         {
-            var query = new GetCustomersQuery();
+            var command = new ConnectCustomerCommand(BusinessId, TableId);
 
-            var result = await _sender.Send(query, cancellationToken);
+            var result = await _sender.Send(command, cancellationToken);
 
             return result.IsSuccess ? Ok(result.Value) : NotFound();
         }

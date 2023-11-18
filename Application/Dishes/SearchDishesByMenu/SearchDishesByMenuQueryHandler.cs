@@ -21,13 +21,13 @@ internal sealed class SearchDishesByMenuQueryHandler
 
     public async Task<Result<IReadOnlyList<DishesResponse>>> Handle(SearchDishesByMenuQuery request, CancellationToken cancellationToken)
     {
-        var menu = await _menuRepository.GetByIdAsync(request.MenuId);
+        var menu = await _menuRepository.GetByIdAsync(new MenuId(request.MenuId));
         if (menu is null)
         {
             return Result.Failure<IReadOnlyList<DishesResponse>>(MenuErrors.NotFound);
         }
 
-        var dishes = await _dishRepository.GetByMenuIdAsync(request.MenuId);
+        var dishes = await _dishRepository.GetByMenuIdAsync(new MenuId(request.MenuId));
 
         return dishes.Select(dish => new DishesResponse(dish) ).ToList();
     }

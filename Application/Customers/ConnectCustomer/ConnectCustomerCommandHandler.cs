@@ -6,7 +6,7 @@ using Domain.Tables;
 
 namespace Application.Customers.ConnectCustomer;
 
-internal sealed class ConnectCustomerCommandHandler : ICommandHandler<ConnectCustomerCommand, Guid>
+internal sealed class ConnectCustomerCommandHandler : ICommandHandler<ConnectCustomerCommand, ConnectCustomerResponse>
 {
     private readonly IBusinessRepository _businessRepository;
     private readonly ITableRepository _tableRepository;
@@ -24,29 +24,29 @@ internal sealed class ConnectCustomerCommandHandler : ICommandHandler<ConnectCus
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<Result<Guid>> Handle(ConnectCustomerCommand request, CancellationToken cancellationToken)
+    public async Task<Result<ConnectCustomerResponse>> Handle(ConnectCustomerCommand request, CancellationToken cancellationToken)
     {
         // Check if Business exists
-        var business = await _businessRepository.GetByIdAsync(request.BusinessId);
+        var business = await _businessRepository.GetByIdAsync(new BusinessId(request.BusinessId));
 
         if(business is null)
         {
-            return Result.Failure<Guid>(BusinessErrors.NotFound);
+            return Result.Failure<ConnectCustomerResponse>(BusinessErrors.NotFound);
         }
 
         // Check if the Table is linked to the Business
         var connectedTable = business.GetTableById(new TableId(request.TableId));
         if (connectedTable is null)
         {
-            return Result.Failure<Guid>(BusinessErrors.TableNotFound);
+            return Result.Failure<ConnectCustomerResponse>(BusinessErrors.TableNotFound);
         }
 
         // Check that the Table exists
-        var table = await _tableRepository.GetByIdAsync(request.TableId);
+        var table = await _tableRepository.GetByIdAsync(new TableId(request.TableId));
 
         if (table is null)
         {
-            return Result.Failure<Guid>(TableErrors.NotFound);
+            return Result.Failure<ConnectCustomerResponse>(TableErrors.NotFound);
         }
 
         // Create Customer
@@ -59,6 +59,6 @@ internal sealed class ConnectCustomerCommandHandler : ICommandHandler<ConnectCus
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return customer.Id.Value;
+        return new ConnectCustomerResponse(customer.Id.Value);
     }
 }

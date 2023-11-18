@@ -21,14 +21,14 @@ internal sealed class BusinessBasicInfoQueryHandler
 
     public async Task<Result<BusinessBasicInfoResponse>> Handle(BusinessBasicInfoQuery request, CancellationToken cancellationToken)
     {
-        var business = await _businessRepository.GetByIdAsync(request.BusinessId);
+        var business = await _businessRepository.GetByIdAsync(new BusinessId(request.BusinessId));
 
         if (business is null)
         {
             return Result.Failure<BusinessBasicInfoResponse>(BusinessErrors.NotFound);
         }
 
-        var menus = await _menuRepository.GetByBusinessIdAsync(request.BusinessId);
+        var menus = await _menuRepository.GetByBusinessIdAsync(new BusinessId(request.BusinessId));
 
         if (!menus.Any())
         {

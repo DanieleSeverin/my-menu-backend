@@ -1,16 +1,26 @@
 ﻿using Domain.Businesses;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories;
 
 internal sealed class BusinessRepository : IBusinessRepository
 {
-    public void Add(Business business)
+    private readonly ApplicationDbContext DbContext;
+
+    public BusinessRepository(ApplicationDbContext dbContext)
     {
-        throw new NotImplementedException();
+        DbContext = dbContext;
     }
 
-    public Task<Business?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+    public void Add(Business business)
     {
-        throw new NotImplementedException();
+        DbContext.Add<Business>(business);
+    }
+
+    public async Task<Business?> GetByIdAsync(BusinessId id, CancellationToken cancellationToken = default)
+    {
+        return await DbContext.Set<Business>()
+            .Include(b => b.Tables)
+            .FirstOrDefaultAsync(b => b.Id == id, cancellationToken);
     }
 }

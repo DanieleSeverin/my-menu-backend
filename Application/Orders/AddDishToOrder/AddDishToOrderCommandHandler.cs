@@ -28,14 +28,14 @@ internal sealed class AddDishToOrderCommandHandler : ICommandHandler<AddDishToOr
 
     public async Task<Result<Guid>> Handle(AddDishToOrderCommand request, CancellationToken cancellationToken)
     {
-        var customer = await _customerRepository.GetByIdAsync(request.CustomerId);
+        var customer = await _customerRepository.GetByIdAsync(new CustomerId(request.CustomerId));
 
         if(customer is null)
         {
             return Result.Failure<Guid>(CustomerErrors.NotFound);
         }
 
-        var dish = await _dishRepository.GetByIdAsync(request.DishId);
+        var dish = await _dishRepository.GetByIdAsync(new DishId(request.DishId));
 
         if (dish is null)
         {
