@@ -1,4 +1,5 @@
-﻿using Domain.Customers;
+﻿using Domain.Businesses;
+using Domain.Customers;
 using Domain.Orders;
 
 namespace Domain.Tables;
@@ -6,10 +7,12 @@ namespace Domain.Tables;
 public class Table
 {
     public TableId Id { get; init; }
+    public BusinessId BusinessId { get; init; }
     public int NumberOfSeats { get; set; }
     public List<Customer> Customers { get; init; }
+    public Business Business { get; init; }
 
-    public Table(int numberOfSeats)
+    public Table(BusinessId businessId, int numberOfSeats)
     {
         if (numberOfSeats <= 0)
         {
@@ -17,6 +20,7 @@ public class Table
         }
 
         Id = TableId.New();
+        BusinessId = businessId;
         NumberOfSeats = numberOfSeats;
         Customers = new List<Customer>();
     }
@@ -42,6 +46,9 @@ public class Table
 
     public List<Order> GetOrderList()
     {
-        return Customers.SelectMany(c => c.OrdersSent).ToList();
+        return Customers
+            .SelectMany(c => c.Orders)
+            .Where(o => o.Sent == false)
+            .ToList();
     }
 }

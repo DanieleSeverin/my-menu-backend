@@ -9,8 +9,8 @@ public class Order
     public bool Sent { get; set; }
 
     private readonly List<OrderItem> _items = new();
+    public IReadOnlyList<OrderItem> Items => _items.ToList();
 
-    // Navigation property to the Customer
     public Customer Customer { get; set; }
 
     public Order(CustomerId customerId)

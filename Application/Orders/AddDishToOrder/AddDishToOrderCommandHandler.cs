@@ -42,11 +42,20 @@ internal sealed class AddDishToOrderCommandHandler : ICommandHandler<AddDishToOr
             return Result.Failure<Guid>(DishErrors.NotFound);
         }
 
+        var getCurrentOrderResult = customer.GetCurrentOrder();
+
+        if (getCurrentOrderResult.IsFailure)
+        {
+            return Result.Failure<Guid>(getCurrentOrderResult.Error);
+        }
+
+        var currentOrder = getCurrentOrderResult.Value;
+
         OrderItem orderItem = new OrderItem(
-            customer.CurrentOrder.Id, 
+            currentOrder.Id, 
             new DishId(request.DishId));
 
-        customer.CurrentOrder.Add(orderItem);
+        currentOrder.Add(orderItem);
 
         await _unitOfWork.SaveChangesAsync();
 

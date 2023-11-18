@@ -1,4 +1,5 @@
-﻿using Domain.Businesses;
+﻿using Domain.Abstractions;
+using Domain.Businesses;
 using Domain.Orders;
 using Domain.Tables;
 
@@ -9,21 +10,41 @@ public class Customer
     public CustomerId Id { get; init; }
     public BusinessId BusinessId { get; init; }
     public TableId TableId { get; init; }
-    public List<Order> OrdersSent { get; init; }
-    public Order CurrentOrder { get; set; }
+    public List<Order> Orders { get; init; }
+    public Table Table { get; init; }
 
     public Customer(BusinessId businessId, TableId tableId)
     {
         Id = CustomerId.New();
         BusinessId = businessId;
         TableId = tableId;
-        OrdersSent = new List<Order>();
-        CurrentOrder = new Order(Id);
+        Orders = new List<Order>();
     }
 
-    public void SendOrder()
+    public Result<Order> GetCurrentOrder()
     {
-        OrdersSent.Add(CurrentOrder);
-        CurrentOrder = new Order(Id);
+        var currentOrder = Orders.FirstOrDefault(x => x.Sent == false);
+        if (currentOrder is null)
+        {
+            return Result.Failure<Order>(CustomerErrors.NoCurrentOrder);
+        }
+
+        return Result.Success(currentOrder);
+    }
+
+    public Result SendOrder()
+    {
+        var getCurrentOrderResult = GetCurrentOrder();
+        Orders.Add(new Order(Id));
+
+        if (getCurrentOrderResult.IsFailure)
+        {
+            return Result.Failure(CustomerErrors.NoCurrentOrder);
+        }
+
+        var currentOrder = getCurrentOrderResult.Value;
+        currentOrder.Sent = true;
+
+        return Result.Success();
     }
 }

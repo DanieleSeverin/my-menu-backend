@@ -11,6 +11,9 @@ public class OrderItem
     public DateTime? PreparedAt { get; set; }
     public DateTime? DeliveredAt { get; set; }
 
+    public Order Order { get; init; }
+    public Dish Dish { get; init; }
+
     public OrderItem(OrderId orderId, DishId dishId)
     {
         Id = OrderItemId.New();
@@ -18,6 +21,8 @@ public class OrderItem
         DishId = dishId;
         CreatedAt = DateTime.Now;
     }
+
+    private OrderItem() { }
 
     public void Prepared()
     {

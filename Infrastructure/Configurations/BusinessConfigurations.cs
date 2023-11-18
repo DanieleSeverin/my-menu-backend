@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Persistance.Configurations;
+namespace Infrastructure.Configurations;
 
 internal class BusinessConfigurations : IEntityTypeConfiguration<Business>
 {
@@ -13,5 +13,16 @@ internal class BusinessConfigurations : IEntityTypeConfiguration<Business>
         builder.Property(c => c.Id).HasConversion(
             businessId => businessId.Value,
             value => new BusinessId(value));
+
+        builder.HasMany(b => b.Tables)
+            .WithOne(t => t.Business)
+            .HasForeignKey(t => t.BusinessId)
+            .HasPrincipalKey(b => b.Id);
+
+        builder.HasMany(b => b.Menus)
+            .WithOne(m => m.Business)
+            .HasForeignKey(m => m.BusinessId)
+            .HasPrincipalKey(b => b.Id);
+
     }
 }

@@ -1,18 +1,24 @@
-﻿using Domain.Dishes;
+﻿using Domain.Businesses;
+using Domain.Dishes;
+using Domain.Tables;
 
 namespace Domain.Menus;
 
 public class Menu
 {
     public MenuId Id { get; init; }
+    public BusinessId BusinessId { get; init; }
     public string Name { get; init; }
     public string? Description { get; init; }
     public bool IsActive { get; set; }
     public List<Dish> Dishes { get; init; }
 
-    public Menu(string name, string? description)
+    public Business Business { get; init; }
+
+    public Menu(BusinessId businessId, string name, string? description)
     {
         Id = MenuId.New();
+        BusinessId = businessId;
         Name = name;
         Description = description;
         IsActive = false;
