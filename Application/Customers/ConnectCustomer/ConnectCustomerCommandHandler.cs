@@ -2,6 +2,7 @@
 using Domain.Abstractions;
 using Domain.Businesses;
 using Domain.Customers;
+using Domain.Orders;
 using Domain.Tables;
 
 namespace Application.Customers.ConnectCustomer;
@@ -11,16 +12,19 @@ internal sealed class ConnectCustomerCommandHandler : ICommandHandler<ConnectCus
     private readonly IBusinessRepository _businessRepository;
     private readonly ITableRepository _tableRepository;
     private readonly ICustomerRepository _customerRepository;
+    private readonly IOrderRepository _orderRepository;
     private readonly IUnitOfWork _unitOfWork;
 
     public ConnectCustomerCommandHandler(IBusinessRepository businessRepository,
                                          ITableRepository tableRepository,
                                          ICustomerRepository customerRepository,
+                                         IOrderRepository orderRepository,
                                          IUnitOfWork unitOfWork)
     {
         _businessRepository = businessRepository;
         _tableRepository = tableRepository;
         _customerRepository = customerRepository;
+        _orderRepository = orderRepository;
         _unitOfWork = unitOfWork;
     }
 
@@ -56,6 +60,12 @@ internal sealed class ConnectCustomerCommandHandler : ICommandHandler<ConnectCus
 
         // Save Customer
         _customerRepository.Add(customer);
+
+        // Create actual order
+        Order order = new Order(customer.Id);
+
+        // Save actual order
+        _orderRepository.Add(order);
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 

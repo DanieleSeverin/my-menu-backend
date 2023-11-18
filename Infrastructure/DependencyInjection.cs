@@ -3,6 +3,7 @@ using Domain.Businesses;
 using Domain.Customers;
 using Domain.Dishes;
 using Domain.Menus;
+using Domain.Orders;
 using Domain.Tables;
 using Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -45,5 +46,6 @@ public static class DependencyInjection
         services.AddScoped<IDishRepository, DishRepository>();
         services.AddScoped<IMenuRepository, MenuRepository>();
         services.AddScoped<ITableRepository, TableRepository>();
+        services.AddScoped<IOrderRepository, OrderRepository>();
     }
 }
