@@ -20,6 +20,7 @@ internal sealed class CustomerRepository : ICustomerRepository
     public async Task<Customer?> GetByIdAsync(CustomerId id, CancellationToken cancellationToken = default)
     {
         return await DbContext.Set<Customer>()
+            .Include(c => c.Orders)
             .FirstOrDefaultAsync(b => b.Id == id, cancellationToken);
     }
 }

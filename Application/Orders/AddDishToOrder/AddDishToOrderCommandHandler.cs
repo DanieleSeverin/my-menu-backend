@@ -8,7 +8,7 @@ using MediatR;
 
 namespace Application.Orders.AddDishToOrder;
 
-internal sealed class AddDishToOrderCommandHandler : ICommandHandler<AddDishToOrderCommand, Guid>
+internal sealed class AddDishToOrderCommandHandler : ICommandHandler<AddDishToOrderCommand, AddDishToOrderResponse>
 {
     private readonly ICustomerRepository _customerRepository;
     private readonly IDishRepository _dishRepository;
@@ -26,27 +26,27 @@ internal sealed class AddDishToOrderCommandHandler : ICommandHandler<AddDishToOr
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<Result<Guid>> Handle(AddDishToOrderCommand request, CancellationToken cancellationToken)
+    public async Task<Result<AddDishToOrderResponse>> Handle(AddDishToOrderCommand request, CancellationToken cancellationToken)
     {
         var customer = await _customerRepository.GetByIdAsync(new CustomerId(request.CustomerId));
 
         if(customer is null)
         {
-            return Result.Failure<Guid>(CustomerErrors.NotFound);
+            return Result.Failure<AddDishToOrderResponse>(CustomerErrors.NotFound);
         }
 
         var dish = await _dishRepository.GetByIdAsync(new DishId(request.DishId));
 
         if (dish is null)
         {
-            return Result.Failure<Guid>(DishErrors.NotFound);
+            return Result.Failure<AddDishToOrderResponse>(DishErrors.NotFound);
         }
 
         var getCurrentOrderResult = customer.GetCurrentOrder();
 
         if (getCurrentOrderResult.IsFailure)
         {
-            return Result.Failure<Guid>(getCurrentOrderResult.Error);
+            return Result.Failure<AddDishToOrderResponse>(getCurrentOrderResult.Error);
         }
 
         var currentOrder = getCurrentOrderResult.Value;
@@ -59,6 +59,7 @@ internal sealed class AddDishToOrderCommandHandler : ICommandHandler<AddDishToOr
 
         await _unitOfWork.SaveChangesAsync();
 
-        return Result.Success(orderItem.Id.Value);
+        return Result.Success(
+            new AddDishToOrderResponse(orderItem.Id.Value));
     }
 }
