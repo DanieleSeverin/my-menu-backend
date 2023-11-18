@@ -19,9 +19,9 @@ internal class TableConfigurations : IEntityTypeConfiguration<Table>
             businessId => businessId.Value,
             value => new BusinessId(value));
 
-        builder.HasMany(table => table.Customers)
-            .WithOne(customer => customer.Table)
-            .HasForeignKey(t => t.TableId)
+        builder.HasOne(t => t.Business)
+            .WithMany(b => b.Tables)
+            .HasForeignKey(t => t.BusinessId)
             .HasPrincipalKey(b => b.Id);
     }
 }

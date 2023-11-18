@@ -19,10 +19,7 @@ internal sealed class CustomerRepository : ICustomerRepository
 
     public async Task<List<Customer>> GetAllAsync()
     {
-        return await DbContext.Set<Customer>()
-            //.Include(customer => customer.Orders)
-            .Include(customer => customer.Table)
-            .ToListAsync();
+        return await DbContext.Set<Customer>().ToListAsync();
     }
 
     public Task<Customer?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
