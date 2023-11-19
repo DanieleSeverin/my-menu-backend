@@ -35,9 +35,4 @@ public class Order
     {
         return Sent;
     }
-
-    public void SendOrder()
-    {
-        Sent = true;
-    }
 }

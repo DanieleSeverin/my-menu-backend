@@ -1,5 +1,7 @@
 ﻿using Application.Orders.AddDishToOrder;
 using Application.Orders.RemoveDishFromOrder;
+using Application.Orders.SendOrder;
+using Domain.Dishes;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,6 +16,16 @@ public class OrderController : ControllerBase
     public OrderController(ISender sender)
     {
         _sender = sender;
+    }
+
+    [HttpPost("{CustomerId}")]
+    public async Task<IActionResult> SendOrder(Guid CustomerId, CancellationToken cancellationToken)
+    {
+        var command = new SendOrderCommand(CustomerId);
+
+        var result = await _sender.Send(command, cancellationToken);
+
+        return result.IsSuccess ? Ok() : NotFound();
     }
 
     [HttpPut("{CustomerId}/{DishId}")]
