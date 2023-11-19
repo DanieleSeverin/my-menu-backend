@@ -11,20 +11,14 @@ namespace Application.Orders.RemoveDishFromOrder;
 internal sealed class RemoveDishFromOrderCommandHandler : ICommandHandler<RemoveDishFromOrderCommand>
 {
     private readonly ICustomerRepository _customerRepository;
-    private readonly IDishRepository _dishRepository;
-    private readonly ITableRepository _tableRepository;
     private readonly IOrderItemRepository _orderItemRepository;
     private readonly IUnitOfWork _unitOfWork;
 
     public RemoveDishFromOrderCommandHandler(ICustomerRepository customerRepository,
-                                            IDishRepository dishRepository,
-                                            ITableRepository tableRepository,
                                             IOrderItemRepository orderItemRepository,
                                             IUnitOfWork unitOfWork)
     {
         _customerRepository = customerRepository;
-        _dishRepository = dishRepository;
-        _tableRepository = tableRepository;
         _orderItemRepository = orderItemRepository;
         _unitOfWork = unitOfWork;
     }
