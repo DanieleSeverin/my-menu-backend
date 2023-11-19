@@ -47,5 +47,6 @@ public static class DependencyInjection
         services.AddScoped<IMenuRepository, MenuRepository>();
         services.AddScoped<ITableRepository, TableRepository>();
         services.AddScoped<IOrderRepository, OrderRepository>();
+        services.AddScoped<IOrderItemRepository, OrderItemRepository>();
     }
 }

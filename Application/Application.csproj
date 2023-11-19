@@ -16,7 +16,6 @@
 
   <ItemGroup>
     <Folder Include="Orders\SendOrder\" />
-    <Folder Include="Orders\RemoveDishToOrder\" />
   </ItemGroup>
 
 </Project>

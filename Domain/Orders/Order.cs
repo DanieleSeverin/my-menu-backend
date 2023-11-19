@@ -26,9 +26,9 @@ public class Order
         _items.Add(item);
     }
 
-    public void Remove(OrderItem item)
+    public OrderItem? FindOrderItem(OrderItemId id)
     {
-        _items.Remove(item);
+        return _items.Find(i => i.Id == id);
     }
 
     public bool IsOrderSent()

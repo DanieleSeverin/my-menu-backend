@@ -1,4 +1,5 @@
 ﻿using Application.Orders.AddDishToOrder;
+using Application.Orders.RemoveDishFromOrder;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,5 +24,15 @@ public class OrderController : ControllerBase
         var result = await _sender.Send(command, cancellationToken);
 
         return result.IsSuccess ? Ok(result.Value) : NotFound();
+    }
+
+    [HttpDelete("{CustomerId}/{OrderItemId}")]
+    public async Task<IActionResult> RemoveDishToOrder(Guid CustomerId, Guid OrderItemId, CancellationToken cancellationToken)
+    {
+        var command = new RemoveDishFromOrderCommand(CustomerId, OrderItemId);
+
+        var result = await _sender.Send(command, cancellationToken);
+
+        return result.IsSuccess ? Ok() : NotFound();
     }
 }

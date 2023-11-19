@@ -21,6 +21,7 @@ internal sealed class CustomerRepository : ICustomerRepository
     {
         return await DbContext.Set<Customer>()
             .Include(c => c.Orders)
+            .ThenInclude(o => o.Items)
             .FirstOrDefaultAsync(b => b.Id == id, cancellationToken);
     }
 }
