@@ -22,6 +22,6 @@ public class BusinessController : ControllerBase
 
         var result = await _sender.Send(query, cancellationToken);
 
-        return result.IsSuccess ? Ok(result.Value) : NotFound();
+        return result.IsSuccess ? Ok(result) : NotFound();
     }
 }

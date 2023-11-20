@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231118151454_Create_Database")]
+    [Migration("20231119102611_Create_Database")]
     partial class Create_Database
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -156,6 +156,10 @@ namespace Infrastructure.Migrations
 
                     b.Property<int>("NumberOfSeats")
                         .HasColumnType("int");
+
+                    b.Property<string>("TableIdentifier")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

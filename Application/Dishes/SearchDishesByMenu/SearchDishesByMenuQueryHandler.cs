@@ -1,4 +1,5 @@
 ﻿using Application.Abstractions.Messaging;
+using Application.Orders.SearchOrderItems;
 using Domain.Abstractions;
 using Domain.Dishes;
 using Domain.Menus;
@@ -12,7 +13,7 @@ internal sealed class SearchDishesByMenuQueryHandler
     private readonly IMenuRepository _menuRepository;
     private readonly IDishRepository _dishRepository;
 
-    public SearchDishesByMenuQueryHandler(IMenuRepository menuRepository, 
+    public SearchDishesByMenuQueryHandler(IMenuRepository menuRepository,
                                           IDishRepository dishRepository)
     {
         _menuRepository = menuRepository;

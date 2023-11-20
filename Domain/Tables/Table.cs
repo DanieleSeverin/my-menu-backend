@@ -7,19 +7,26 @@ namespace Domain.Tables;
 public class Table
 {
     public TableId Id { get; init; }
+    public TableIdentifier TableIdentifier { get; init; }
     public BusinessId BusinessId { get; init; }
     public int NumberOfSeats { get; set; }
     public List<Customer> Customers { get; init; }
     public Business Business { get; init; }
 
-    public Table(BusinessId businessId, int numberOfSeats)
+    public Table(TableIdentifier tableIdentifier, BusinessId businessId, int numberOfSeats)
     {
         if (numberOfSeats <= 0)
         {
-            throw new Exception("Number of seats must be > 0.");
+            throw new ArgumentException("Number of seats must be > 0.");
+        }
+
+        if (string.IsNullOrWhiteSpace(tableIdentifier.Value))
+        {
+            throw new ArgumentNullException("Table identifier is required.");
         }
 
         Id = TableId.New();
+        TableIdentifier = tableIdentifier;
         BusinessId = businessId;
         NumberOfSeats = numberOfSeats;
         Customers = new List<Customer>();

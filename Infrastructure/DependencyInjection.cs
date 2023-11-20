@@ -1,4 +1,5 @@
-﻿using Domain.Abstractions;
+﻿using Application.Orders.SearchOrderItems;
+using Domain.Abstractions;
 using Domain.Businesses;
 using Domain.Customers;
 using Domain.Dishes;
@@ -6,6 +7,7 @@ using Domain.Menus;
 using Domain.Orders;
 using Domain.Tables;
 using Infrastructure.Repositories;
+using Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -35,8 +37,8 @@ public static class DependencyInjection
         });
 
         AddRepositories(services);
+        AddServices(services);
 
-        services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<ApplicationDbContext>());
     }
 
     private static void AddRepositories(IServiceCollection services)
@@ -48,5 +50,11 @@ public static class DependencyInjection
         services.AddScoped<ITableRepository, TableRepository>();
         services.AddScoped<IOrderRepository, OrderRepository>();
         services.AddScoped<IOrderItemRepository, OrderItemRepository>();
+    }
+
+    private static void AddServices(IServiceCollection services)
+    {
+        services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<ApplicationDbContext>());
+        services.AddScoped<IOrderItemSummary, OrderItemSummary>();
     }
 }

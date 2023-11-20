@@ -28,7 +28,7 @@ public static class SeedDataExtensions
         Business business = new Business();
         DbContext.Add(business);
 
-        Table table = new Table(business.Id, numberOfSeats: 1);
+        Table table = new Table(new TableIdentifier("1"), business.Id, numberOfSeats: 1);
         DbContext.Add(table);
 
         Customer customer = new Customer(business.Id, table.Id);

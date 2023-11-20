@@ -46,6 +46,7 @@ namespace Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TableIdentifier = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     BusinessId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     NumberOfSeats = table.Column<int>(type: "int", nullable: false)
                 },

@@ -19,6 +19,10 @@ internal class TableConfigurations : IEntityTypeConfiguration<Table>
             businessId => businessId.Value,
             value => new BusinessId(value));
 
+        builder.Property(table => table.TableIdentifier).HasConversion(
+            tableIdentifier => tableIdentifier.Value,
+            value => new TableIdentifier(value));
+
         builder.HasOne(t => t.Business)
             .WithMany(b => b.Tables)
             .HasForeignKey(t => t.BusinessId)

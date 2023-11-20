@@ -13,13 +13,13 @@ internal sealed class DishRepository : IDishRepository
         DbContext = dbContext;
     }
 
-    public async Task<Dish?> GetByIdAsync(DishId id)
+    public async Task<Dish?> GetByIdAsync(DishId id, CancellationToken cancellationToken = default)
     {
-        return await DbContext.Set<Dish>().FirstOrDefaultAsync(d => d.Id == id);
+        return await DbContext.Set<Dish>().FirstOrDefaultAsync(d => d.Id == id, cancellationToken);
     }
 
-    public async Task<List<Dish>> GetByMenuIdAsync(MenuId menuId)
+    public async Task<List<Dish>> GetByMenuIdAsync(MenuId menuId, CancellationToken cancellationToken = default)
     {
-        return await DbContext.Set<Dish>().Where(d => d.MenuId == menuId).ToListAsync();
+        return await DbContext.Set<Dish>().Where(d => d.MenuId == menuId).ToListAsync(cancellationToken);
     }
 }
