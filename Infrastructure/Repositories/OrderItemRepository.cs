@@ -1,4 +1,4 @@
-﻿using Domain.Orders;
+﻿using Domain.OrderItems;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories;

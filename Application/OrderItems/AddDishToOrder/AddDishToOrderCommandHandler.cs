@@ -2,11 +2,11 @@
 using Domain.Abstractions;
 using Domain.Customers;
 using Domain.Dishes;
-using Domain.Orders;
+using Domain.OrderItems;
 using Domain.Tables;
 using MediatR;
 
-namespace Application.Orders.AddDishToOrder;
+namespace Application.OrderItems.AddDishToOrder;
 
 internal sealed class AddDishToOrderCommandHandler : ICommandHandler<AddDishToOrderCommand, AddDishToOrderResponse>
 {
@@ -30,7 +30,7 @@ internal sealed class AddDishToOrderCommandHandler : ICommandHandler<AddDishToOr
     {
         var customer = await _customerRepository.GetByIdAsync(new CustomerId(request.CustomerId));
 
-        if(customer is null)
+        if (customer is null)
         {
             return Result.Failure<AddDishToOrderResponse>(CustomerErrors.NotFound);
         }
@@ -52,7 +52,7 @@ internal sealed class AddDishToOrderCommandHandler : ICommandHandler<AddDishToOr
         var currentOrder = getCurrentOrderResult.Value;
 
         OrderItem orderItem = new OrderItem(
-            currentOrder.Id, 
+            currentOrder.Id,
             new DishId(request.DishId));
 
         currentOrder.Add(orderItem);

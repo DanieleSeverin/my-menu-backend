@@ -2,6 +2,7 @@
 using Domain.Customers;
 using Domain.Dishes;
 using Domain.Menus;
+using Domain.OrderItems;
 using Domain.Orders;
 using Domain.Shared;
 using Domain.Tables;

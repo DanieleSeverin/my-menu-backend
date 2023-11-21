@@ -1,6 +1,6 @@
 ﻿using Domain.Businesses;
 
-namespace Application.Orders.SearchOrderItems;
+namespace Application.OrderItems.SearchOrderItems;
 
 public interface IOrderItemSummary
 {

@@ -1,6 +1,6 @@
 ﻿using Domain.Abstractions;
 
-namespace Domain.Orders;
+namespace Domain.OrderItems;
 
 public static class OrderItemErrors
 {

@@ -1,5 +1,5 @@
 ﻿using Application.Abstractions.Messaging;
 
-namespace Application.Orders.MarkOrderItemsAsPrepared;
+namespace Application.OrderItems.MarkOrderItemsAsPrepared;
 
 public record MarkOrderItemsAsPreparedCommand(Guid OrderItemId) : ICommand;

@@ -1,6 +1,7 @@
 ﻿using Domain.Dishes;
+using Domain.Orders;
 
-namespace Domain.Orders;
+namespace Domain.OrderItems;
 
 public class OrderItem
 {

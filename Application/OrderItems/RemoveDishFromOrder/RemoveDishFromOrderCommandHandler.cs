@@ -3,10 +3,11 @@ using Application.Orders.AddDishToOrder;
 using Domain.Abstractions;
 using Domain.Customers;
 using Domain.Dishes;
+using Domain.OrderItems;
 using Domain.Orders;
 using Domain.Tables;
 
-namespace Application.Orders.RemoveDishFromOrder;
+namespace Application.OrderItems.RemoveDishFromOrder;
 
 internal sealed class RemoveDishFromOrderCommandHandler : ICommandHandler<RemoveDishFromOrderCommand>
 {

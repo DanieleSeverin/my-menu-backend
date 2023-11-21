@@ -1,5 +1,5 @@
 ﻿using Application.Abstractions.Messaging;
 
-namespace Application.Orders.MarkOrderItemsAsDelivered;
+namespace Application.OrderItems.MarkOrderItemsAsDelivered;
 
 public record MarkOrderItemsAsDeliveredCommand(Guid OrderItemId) : ICommand;

@@ -6,11 +6,11 @@ namespace Api.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class CustomersController : ControllerBase
+public class CustomerController : ControllerBase
 {
     private readonly ISender _sender;
 
-    public CustomersController(ISender sender)
+    public CustomerController(ISender sender)
     {
         _sender = sender;
     }

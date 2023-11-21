@@ -1,8 +1,9 @@
 ﻿using Application.Abstractions.Messaging;
 using Domain.Abstractions;
+using Domain.OrderItems;
 using Domain.Orders;
 
-namespace Application.Orders.MarkOrderItemsAsDelivered;
+namespace Application.OrderItems.MarkOrderItemsAsDelivered;
 
 internal sealed class MarkOrderItemsAsDeliveredCommandHandler : ICommandHandler<MarkOrderItemsAsDeliveredCommand>
 {

@@ -1,6 +1,6 @@
 ﻿using Domain.Businesses;
 
-namespace Domain.Orders;
+namespace Domain.OrderItems;
 
 public interface IOrderItemRepository
 {

@@ -1,4 +1,5 @@
 ﻿using Domain.Customers;
+using Domain.OrderItems;
 
 namespace Domain.Orders;
 

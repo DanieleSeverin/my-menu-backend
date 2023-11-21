@@ -1,4 +1,4 @@
-﻿namespace Domain.Orders;
+﻿namespace Domain.OrderItems;
 
 public record OrderItemId(Guid Value)
 {

@@ -1,5 +1,5 @@
 ﻿using Application.Abstractions.Messaging;
 
-namespace Application.Orders.AddDishToOrder;
+namespace Application.OrderItems.AddDishToOrder;
 
 public record AddDishToOrderCommand(Guid CustomerId, Guid DishId) : ICommand<AddDishToOrderResponse>;

@@ -1,5 +1,5 @@
 ﻿using Application.Abstractions.Messaging;
 
-namespace Application.Orders.RemoveDishFromOrder;
+namespace Application.OrderItems.RemoveDishFromOrder;
 
 public record RemoveDishFromOrderCommand(Guid CustomerId, Guid OrderItemId) : ICommand;

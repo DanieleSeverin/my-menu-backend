@@ -2,7 +2,7 @@
 using Domain.Abstractions;
 using Domain.Businesses;
 
-namespace Application.Orders.SearchOrderItems;
+namespace Application.OrderItems.SearchOrderItems;
 
 internal sealed class SearchOrderItemsQueryHandler : IQueryHandler<SearchOrderItemsQuery, IReadOnlyList<OrderItemsResponse>>
 {
@@ -15,6 +15,6 @@ internal sealed class SearchOrderItemsQueryHandler : IQueryHandler<SearchOrderIt
 
     public async Task<Result<IReadOnlyList<OrderItemsResponse>>> Handle(SearchOrderItemsQuery request, CancellationToken cancellationToken)
     {
-        return Result.Success( await _orderItemSummary.Get( new BusinessId(request.BusinessId) ));
+        return Result.Success(await _orderItemSummary.Get(new BusinessId(request.BusinessId)));
     }
 }
