@@ -1,8 +1,8 @@
 ﻿using Application.OrderItems.AddDishToOrder;
+using Application.OrderItems.GetOrderItemSummary;
 using Application.OrderItems.MarkOrderItemsAsDelivered;
 using Application.OrderItems.MarkOrderItemsAsPrepared;
 using Application.OrderItems.RemoveDishFromOrder;
-using Application.OrderItems.SearchOrderItems;
 using Application.Orders.SendOrder;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -24,7 +24,7 @@ public class OrderItemController : ControllerBase
     [HttpGet("{BusinessId}")]
     public async Task<IActionResult> GetOrderItemSummary(Guid BusinessId, CancellationToken cancellationToken)
     {
-        var query = new SearchOrderItemsQuery(BusinessId);
+        var query = new GetOrderItemSummaryQuery(BusinessId);
 
         var result = await _sender.Send(query, cancellationToken);
 

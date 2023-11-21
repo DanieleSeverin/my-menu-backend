@@ -1,4 +1,4 @@
-﻿namespace Application.OrderItems.SearchOrderItems;
+﻿namespace Application.OrderItems.GetOrderItemSummary;
 
 public sealed class OrderItemsResponse
 {

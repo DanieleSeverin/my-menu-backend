@@ -1,4 +1,4 @@
-﻿using Application.OrderItems.SearchOrderItems;
+﻿using Application.OrderItems.GetOrderItemSummary;
 using Domain.Abstractions;
 using Domain.Businesses;
 using Domain.Customers;
