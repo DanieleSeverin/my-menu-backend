@@ -43,7 +43,7 @@ public class Customer
         }
 
         var currentOrder = getCurrentOrderResult.Value;
-        currentOrder.Sent = true;
+        currentOrder.Send();
 
         return Result.Success();
     }

@@ -7,7 +7,7 @@ public class Order
 {
     public OrderId Id { get; init; }
     public CustomerId CustomerId { get; init; }
-    public bool Sent { get; set; }
+    public bool Sent { get; private set; }
     public bool Canceled { get; private set; }
 
     private readonly List<OrderItem> _items = new();
@@ -32,6 +32,11 @@ public class Order
     public OrderItem? FindOrderItem(OrderItemId id)
     {
         return _items.Find(i => i.Id == id);
+    }
+
+    public void Send()
+    {
+        Sent = true;
     }
 
     public void Cancel()
