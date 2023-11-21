@@ -1,4 +1,5 @@
-﻿using Application.Orders.SendOrder;
+﻿using Application.Orders.CancelOrder;
+using Application.Orders.SendOrder;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,6 +20,17 @@ public class OrderController : ControllerBase
     public async Task<IActionResult> SendOrder(Guid CustomerId, CancellationToken cancellationToken)
     {
         var command = new SendOrderCommand(CustomerId);
+
+        var result = await _sender.Send(command, cancellationToken);
+
+        return result.IsSuccess ? Ok() : NotFound();
+    }
+
+    //[Authorize]
+    [HttpDelete("{OrderId}")]
+    public async Task<IActionResult> CancelOrder(Guid OrderId, CancellationToken cancellationToken)
+    {
+        var command = new CancelOrderCommand(OrderId);
 
         var result = await _sender.Send(command, cancellationToken);
 

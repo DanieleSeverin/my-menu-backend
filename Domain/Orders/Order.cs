@@ -8,6 +8,7 @@ public class Order
     public OrderId Id { get; init; }
     public CustomerId CustomerId { get; init; }
     public bool Sent { get; set; }
+    public bool Canceled { get; private set; }
 
     private readonly List<OrderItem> _items = new();
     public IReadOnlyList<OrderItem> Items => _items.ToList();
@@ -19,6 +20,7 @@ public class Order
         Id = OrderId.New();
         CustomerId = customerId;
         Sent = false;
+        Canceled = false;
         _items = new List<OrderItem>();
     }
 
@@ -32,8 +34,8 @@ public class Order
         return _items.Find(i => i.Id == id);
     }
 
-    public bool IsOrderSent()
+    public void Cancel()
     {
-        return Sent;
+        Canceled = true;
     }
 }

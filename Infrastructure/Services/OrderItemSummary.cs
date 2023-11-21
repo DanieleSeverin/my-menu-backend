@@ -32,7 +32,8 @@ public class OrderItemSummary : IOrderItemSummary
                         TableIdentifier = ti.TableIdentifier.Value,
                         DishId = oi.DishId.Value,
                         DishName = d.Name,
-                        Prepared = oi.PreparedAt != null
+                        Prepared = oi.PreparedAt != null,
+                        Canceled = o.Canceled
                     };
 
         return await query.ToListAsync(cancellationToken);
