@@ -1,4 +1,5 @@
-﻿using Infrastructure;
+﻿using Api.Middleware;
+using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
 namespace Api.Extensions;
@@ -14,8 +15,8 @@ public static class ApplicationBuilderExtensions
         dbContext.Database.Migrate();
     }
 
-    //public static void UseCustomExceptionHandler(this IApplicationBuilder app)
-    //{
-    //    app.UseMiddleware<ExceptionHandlingMiddleware>();
-    //}
+    public static void UseCustomExceptionHandler(this IApplicationBuilder app)
+    {
+        app.UseMiddleware<ExceptionHandlingMiddleware>();
+    }
 }
