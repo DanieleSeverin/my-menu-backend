@@ -22,3 +22,16 @@ services:
     environment:
       MSSQL_SA_PASSWORD: "SQLserver00"
       ACCEPT_EULA: "Y"
+
+  mymenu-idp:
+    image: jboss/keycloak:latest
+    container_name: MyMenu.Identity
+    environment:
+      - KEYCLOAK_USER=admin
+      - KEYCLOAK_PASSWORD=admin
+      - KEYCLOAK_IMPORT=/tmp/mymenu-realm-export.json
+    volumes:
+      - ./.containers/identity:/opt/jboss/keycloak/standalone/data
+      - ./.files/mymenu-realm-export.json:/tmp/mymenu-realm-export.json
+    ports:
+      - 18080:8080
