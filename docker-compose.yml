@@ -1,0 +1,24 @@
+version: '3.4'
+
+services:
+  api:
+    image: ${DOCKER_REGISTRY-}api
+    ports:
+      - "80:80"
+    container_name: MyMenu.Api
+    environment:
+        ASPNETCORE_ENVIRONMENT: Development
+    build:
+      context: .
+      dockerfile: Api/Dockerfile
+    depends_on:
+    - mymenu-db
+
+  mymenu-db:
+    container_name: MyMenu.Db
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    ports:
+      - "1433:1433"
+    environment:
+      MSSQL_SA_PASSWORD: "SQLserver00"
+      ACCEPT_EULA: "Y"
