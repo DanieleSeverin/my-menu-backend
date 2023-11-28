@@ -31,16 +31,6 @@ public class OrderItemController : ControllerBase
         return result.IsSuccess ? Ok(result) : NotFound();
     }
 
-    [HttpPost("{CustomerId}")]
-    public async Task<IActionResult> SendOrder(Guid CustomerId, CancellationToken cancellationToken)
-    {
-        var command = new SendOrderCommand(CustomerId);
-
-        var result = await _sender.Send(command, cancellationToken);
-
-        return result.IsSuccess ? Ok() : NotFound();
-    }
-
     //[Authorize]
     [HttpPut("Prepared/{OrderItemId}")]
     public async Task<IActionResult> MarkAsPrepared(Guid OrderItemId, CancellationToken cancellationToken)
