@@ -1,5 +1,6 @@
 ﻿using Application.Businesses.CreateBusiness;
-using Application.Businesses.SearchBusinessBasicInfo;
+using Application.Businesses.SearchBusiness;
+using Application.Businesses.SearchBusinessExtendedInfo;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,13 +18,23 @@ public class BusinessController : ControllerBase
     }
 
     [HttpGet("{BusinessId}")]
-    public async Task<IActionResult> GetBusinessBasicInfo(Guid BusinessId, CancellationToken cancellationToken)
+    public async Task<IActionResult> SearchBusiness(Guid BusinessId, CancellationToken cancellationToken)
     {
-        var query = new BusinessBasicInfoQuery(BusinessId);
+        var query = new SearchBusinessQuery(BusinessId);
 
         var result = await _sender.Send(query, cancellationToken);
 
-        return result.IsSuccess ? Ok(result) : NotFound();
+        return result.IsSuccess ? Ok(result) : NotFound(result.Error);
+    }
+
+    [HttpGet("{BusinessId}/extended")]
+    public async Task<IActionResult> SearchBusinessExtendedInfo(Guid BusinessId, CancellationToken cancellationToken)
+    {
+        var query = new BusinessExtendedInfoQuery(BusinessId);
+
+        var result = await _sender.Send(query, cancellationToken);
+
+        return result.IsSuccess ? Ok(result) : NotFound(result.Error);
     }
 
     [HttpPost()]
@@ -33,6 +44,9 @@ public class BusinessController : ControllerBase
 
         var result = await _sender.Send(command, cancellationToken);
 
-        return result.IsSuccess ? Ok(result) : NotFound();
+        var baseUri = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.ToUriComponent()}/api";
+        string createdUri = $"{baseUri}/business/{result.Value}";
+
+        return Created(createdUri, result);
     }
 }
