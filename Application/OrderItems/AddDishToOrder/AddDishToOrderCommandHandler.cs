@@ -46,7 +46,7 @@ internal sealed class AddDishToOrderCommandHandler : ICommandHandler<AddDishToOr
 
         if (getCurrentOrderResult.IsFailure)
         {
-            return Result.Failure<AddDishToOrderResponse>(getCurrentOrderResult.Error);
+            return Result.Failure<AddDishToOrderResponse>(getCurrentOrderResult.Error!);
         }
 
         var currentOrder = getCurrentOrderResult.Value;

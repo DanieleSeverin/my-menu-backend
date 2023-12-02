@@ -23,7 +23,7 @@ public class OrderController : ControllerBase
 
         var result = await _sender.Send(command, cancellationToken);
 
-        return result.IsSuccess ? Ok() : NotFound();
+        return result.IsSuccess ? Ok() : NotFound(result.Error);
     }
 
     //[Authorize]
@@ -34,7 +34,7 @@ public class OrderController : ControllerBase
 
         var result = await _sender.Send(command, cancellationToken);
 
-        return result.IsSuccess ? Ok() : NotFound();
+        return result.IsSuccess ? NoContent() : NotFound(result.Error);
     }
 
 }

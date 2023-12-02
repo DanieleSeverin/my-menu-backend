@@ -22,7 +22,7 @@ public class CustomerController : ControllerBase
 
         var result = await _sender.Send(command, cancellationToken);
 
-        return result.IsSuccess ? Ok(result) : NotFound();
+        return result.IsSuccess ? Ok(result) : NotFound(result.Error);
     }
 
 }

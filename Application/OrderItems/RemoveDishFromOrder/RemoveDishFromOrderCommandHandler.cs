@@ -33,7 +33,7 @@ internal sealed class RemoveDishFromOrderCommandHandler : ICommandHandler<Remove
 
         if (getCurrentOrderResult.IsFailure)
         {
-            return Result.Failure(getCurrentOrderResult.Error);
+            return Result.Failure(getCurrentOrderResult.Error!);
         }
 
         var currentOrder = getCurrentOrderResult.Value;

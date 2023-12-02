@@ -28,7 +28,7 @@ public class OrderItemController : ControllerBase
 
         var result = await _sender.Send(query, cancellationToken);
 
-        return result.IsSuccess ? Ok(result) : NotFound();
+        return Ok(result);
     }
 
     //[Authorize]
@@ -39,7 +39,7 @@ public class OrderItemController : ControllerBase
 
         var result = await _sender.Send(command, cancellationToken);
 
-        return result.IsSuccess ? Ok(result) : NotFound();
+        return result.IsSuccess ? Ok(result) : NotFound(result.Error);
     }
 
     //[Authorize]
@@ -50,7 +50,7 @@ public class OrderItemController : ControllerBase
 
         var result = await _sender.Send(command, cancellationToken);
 
-        return result.IsSuccess ? Ok(result) : NotFound();
+        return result.IsSuccess ? Ok(result) : NotFound(result.Error);
     }
 
     [HttpPut("{CustomerId}/{DishId}")]
@@ -60,16 +60,16 @@ public class OrderItemController : ControllerBase
 
         var result = await _sender.Send(command, cancellationToken);
 
-        return result.IsSuccess ? Ok(result) : NotFound();
+        return result.IsSuccess ? Ok(result) : NotFound(result.Error);
     }
 
     [HttpDelete("{CustomerId}/{OrderItemId}")]
-    public async Task<IActionResult> RemoveDishToOrder(Guid CustomerId, Guid OrderItemId, CancellationToken cancellationToken)
+    public async Task<IActionResult> RemoveDishFromOrder(Guid CustomerId, Guid OrderItemId, CancellationToken cancellationToken)
     {
         var command = new RemoveDishFromOrderCommand(CustomerId, OrderItemId);
 
         var result = await _sender.Send(command, cancellationToken);
 
-        return result.IsSuccess ? Ok() : NotFound();
+        return result.IsSuccess ? NoContent() : NotFound(result.Error);
     }
 }
