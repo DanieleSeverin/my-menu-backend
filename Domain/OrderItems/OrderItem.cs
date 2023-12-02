@@ -6,14 +6,14 @@ namespace Domain.OrderItems;
 public class OrderItem
 {
     public OrderItemId Id { get; init; }
-    public DishId DishId { get; init; }
-    public OrderId OrderId { get; init; }
-    public DateTime CreatedAt { get; init; }
-    public DateTime? PreparedAt { get; set; }
-    public DateTime? DeliveredAt { get; set; }
+    public DishId DishId { get; private set; }
+    public OrderId OrderId { get; private set; }
+    public DateTime CreatedAt { get; private set; }
+    public DateTime? PreparedAt { get; private set; }
+    public DateTime? DeliveredAt { get; private set; }
 
-    public Order Order { get; init; }
-    public Dish Dish { get; init; }
+    public Order Order { get; private set; }
+    public Dish Dish { get; private set; }
 
     public OrderItem(OrderId orderId, DishId dishId)
     {

@@ -6,8 +6,8 @@ namespace Domain.Businesses;
 public class Business
 {
     public BusinessId Id { get; init; }
-    public List<Table> Tables { get; init; }
-    public List<Menu> Menus { get; init; }
+    public List<Table> Tables { get; private set; }
+    public List<Menu> Menus { get; private set; }
 
     public Business()
     {

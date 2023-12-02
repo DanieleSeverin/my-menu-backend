@@ -7,13 +7,13 @@ namespace Domain.Menus;
 public class Menu
 {
     public MenuId Id { get; init; }
-    public BusinessId BusinessId { get; init; }
-    public string Name { get; init; }
-    public string? Description { get; init; }
-    public bool IsActive { get; set; }
-    public List<Dish> Dishes { get; init; }
+    public BusinessId BusinessId { get; private set; }
+    public string Name { get; private set; }
+    public string? Description { get; private set; }
+    public bool IsActive { get; private set; }
+    public List<Dish> Dishes { get; private set; }
 
-    public Business Business { get; init; }
+    public Business Business { get; private set; }
 
     public Menu(BusinessId businessId, string name, string? description)
     {

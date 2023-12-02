@@ -8,10 +8,10 @@ namespace Domain.Customers;
 public class Customer
 {
     public CustomerId Id { get; init; }
-    public BusinessId BusinessId { get; init; }
-    public TableId TableId { get; init; }
-    public List<Order> Orders { get; init; }
-    public Table Table { get; init; }
+    public BusinessId BusinessId { get; private set; }
+    public TableId TableId { get; private set; }
+    public List<Order> Orders { get; private set; }
+    public Table Table { get; private set; }
 
     public Customer(BusinessId businessId, TableId tableId)
     {
