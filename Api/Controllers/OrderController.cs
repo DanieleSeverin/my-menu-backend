@@ -1,6 +1,7 @@
 ﻿using Application.Orders.CancelOrder;
 using Application.Orders.SendOrder;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers;
@@ -16,6 +17,7 @@ public class OrderController : ControllerBase
         _sender = sender;
     }
 
+    [AllowAnonymous]
     [HttpPost("{CustomerId}")]
     public async Task<IActionResult> SendOrder(Guid CustomerId, CancellationToken cancellationToken)
     {
@@ -26,7 +28,7 @@ public class OrderController : ControllerBase
         return result.IsSuccess ? Ok() : NotFound(result.Error);
     }
 
-    //[Authorize]
+    [Authorize]
     [HttpDelete("{OrderId}")]
     public async Task<IActionResult> CancelOrder(Guid OrderId, CancellationToken cancellationToken)
     {

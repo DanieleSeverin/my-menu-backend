@@ -2,6 +2,7 @@
 using Application.Businesses.SearchBusiness;
 using Application.Businesses.SearchBusinessExtendedInfo;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers;
@@ -17,6 +18,7 @@ public class BusinessController : ControllerBase
         _sender = sender;
     }
 
+    [AllowAnonymous]
     [HttpGet("{BusinessId}")]
     public async Task<IActionResult> SearchBusiness(Guid BusinessId, CancellationToken cancellationToken)
     {
@@ -27,6 +29,7 @@ public class BusinessController : ControllerBase
         return result.IsSuccess ? Ok(result) : NotFound(result.Error);
     }
 
+    [AllowAnonymous]
     [HttpGet("{BusinessId}/extended")]
     public async Task<IActionResult> SearchBusinessExtendedInfo(Guid BusinessId, CancellationToken cancellationToken)
     {
@@ -37,6 +40,7 @@ public class BusinessController : ControllerBase
         return result.IsSuccess ? Ok(result) : NotFound(result.Error);
     }
 
+    [Authorize]
     [HttpPost()]
     public async Task<IActionResult> CreateBusiness(CancellationToken cancellationToken)
     {

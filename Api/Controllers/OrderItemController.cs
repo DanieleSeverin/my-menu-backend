@@ -5,6 +5,7 @@ using Application.OrderItems.MarkOrderItemsAsPrepared;
 using Application.OrderItems.RemoveDishFromOrder;
 using Application.Orders.SendOrder;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers;
@@ -20,7 +21,7 @@ public class OrderItemController : ControllerBase
         _sender = sender;
     }
 
-    //[Authorize]
+    [Authorize]
     [HttpGet("{BusinessId}")]
     public async Task<IActionResult> GetOrderItemSummary(Guid BusinessId, CancellationToken cancellationToken)
     {
@@ -31,7 +32,7 @@ public class OrderItemController : ControllerBase
         return Ok(result);
     }
 
-    //[Authorize]
+    [Authorize]
     [HttpPut("Prepared/{OrderItemId}")]
     public async Task<IActionResult> MarkAsPrepared(Guid OrderItemId, CancellationToken cancellationToken)
     {
@@ -42,7 +43,7 @@ public class OrderItemController : ControllerBase
         return result.IsSuccess ? Ok(result) : NotFound(result.Error);
     }
 
-    //[Authorize]
+    [Authorize]
     [HttpPut("Delivered/{OrderItemId}")]
     public async Task<IActionResult> MarkAsDelivered(Guid OrderItemId, CancellationToken cancellationToken)
     {
@@ -53,6 +54,7 @@ public class OrderItemController : ControllerBase
         return result.IsSuccess ? Ok(result) : NotFound(result.Error);
     }
 
+    [AllowAnonymous]
     [HttpPut("{CustomerId}/{DishId}")]
     public async Task<IActionResult> AddDishToOrder(Guid CustomerId, Guid DishId, CancellationToken cancellationToken)
     {
@@ -63,6 +65,7 @@ public class OrderItemController : ControllerBase
         return result.IsSuccess ? Ok(result) : NotFound(result.Error);
     }
 
+    [AllowAnonymous]
     [HttpDelete("{CustomerId}/{OrderItemId}")]
     public async Task<IActionResult> RemoveDishFromOrder(Guid CustomerId, Guid OrderItemId, CancellationToken cancellationToken)
     {

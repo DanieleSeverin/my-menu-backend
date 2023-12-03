@@ -1,4 +1,5 @@
-﻿using Application.OrderItems.GetOrderItemSummary;
+﻿using Application.Abstractions.Authentication;
+using Application.OrderItems.GetOrderItemSummary;
 using Domain.Abstractions;
 using Domain.Businesses;
 using Domain.Customers;
@@ -7,6 +8,8 @@ using Domain.Menus;
 using Domain.OrderItems;
 using Domain.Orders;
 using Domain.Tables;
+using Domain.Users;
+using Infrastructure.Authentication;
 using Infrastructure.Repositories;
 using Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
@@ -51,11 +54,13 @@ public static class DependencyInjection
         services.AddScoped<ITableRepository, TableRepository>();
         services.AddScoped<IOrderRepository, OrderRepository>();
         services.AddScoped<IOrderItemRepository, OrderItemRepository>();
+        services.AddScoped<IUserRepository, UserRepository>();
     }
 
     private static void AddServices(IServiceCollection services)
     {
         services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<ApplicationDbContext>());
         services.AddScoped<IOrderItemSummary, OrderItemSummary>();
+        services.AddScoped<IJwtProvider, JwtProvider>();
     }
 }

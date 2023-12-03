@@ -1,5 +1,6 @@
 ﻿using Application.Customers.ConnectCustomer;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers;
@@ -15,6 +16,7 @@ public class CustomerController : ControllerBase
         _sender = sender;
     }
 
+    [AllowAnonymous]
     [HttpPost("connect/{BusinessId}/{TableId}")]
     public async Task<IActionResult> ConnectCustomer(Guid BusinessId, Guid TableId, CancellationToken cancellationToken)
     {

@@ -1,5 +1,6 @@
 ﻿using Application.Dishes.SearchDishesByMenu;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers;
@@ -15,6 +16,7 @@ public class DishController : ControllerBase
         _sender = sender;
     }
 
+    [AllowAnonymous]
     [HttpGet("MenuId")]
     public async Task<IActionResult> SearchDishesByMenu(Guid MenuId, CancellationToken cancellationToken) 
     {

@@ -1,4 +1,5 @@
 using Api.Extensions;
+using Api.OptionsSetup;
 using Application;
 using Infrastructure;
 
@@ -11,6 +12,8 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
+
+builder.Services.AddJwtAuthentication();
 
 var app = builder.Build();
 
@@ -28,7 +31,7 @@ app.UseHttpsRedirection();
 
 app.UseCustomExceptionHandler();
 
-//app.UseAuthentication();
+app.UseAuthentication();
 
 app.UseAuthorization();
 

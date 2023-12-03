@@ -6,6 +6,7 @@ using Domain.OrderItems;
 using Domain.Orders;
 using Domain.Shared;
 using Domain.Tables;
+using Domain.Users;
 using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
@@ -25,6 +26,15 @@ public static class SeedDataExtensions
         {
             return;
         }
+
+        User user = User.Create(
+            new FirstName("Super"),
+            new LastName("Admin"),
+            new Email("admin@mymenu.com"),
+            new Password("my-password")
+            );
+
+        DbContext.Add(user);
 
         Business business = new Business();
         DbContext.Add(business);

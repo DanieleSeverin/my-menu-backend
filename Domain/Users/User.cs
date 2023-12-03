@@ -5,12 +5,17 @@ namespace Domain.Users;
 
 public sealed class User
 {
-    private User(UserId id, FirstName firstName, LastName lastName, Email email)
+    private User(UserId id, 
+                 FirstName firstName, 
+                 LastName lastName, 
+                 Email email,
+                 Password password)
     {
         Id = id;
         FirstName = firstName;
         LastName = lastName;
         Email = email;
+        Password = password;
     }
 
     private User()
@@ -24,9 +29,11 @@ public sealed class User
 
     public Email Email { get; private set; }
 
-    public static User Create(FirstName firstName, LastName lastName, Email email)
+    public Password Password { get; private set; }
+
+    public static User Create(FirstName firstName, LastName lastName, Email email, Password password)
     {
-        var user = new User(UserId.New(), firstName, lastName, email);
+        var user = new User(UserId.New(), firstName, lastName, email, password);
 
         return user;
     }
