@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Api.OptionsSetup;
 
-public class JwtBearerOptionsSetup : IConfigureOptions<JwtBearerOptions>
+public class JwtBearerOptionsSetup : IConfigureNamedOptions<JwtBearerOptions>
 {
     private readonly JwtOptions _jwtOptions;
 
@@ -17,6 +17,12 @@ public class JwtBearerOptionsSetup : IConfigureOptions<JwtBearerOptions>
 
     public void Configure(JwtBearerOptions options)
     {
+        Configure(JwtBearerDefaults.AuthenticationScheme, options);
+    }
+
+    public void Configure(string name, JwtBearerOptions options)
+    {
+        CheckOptions();
         options.TokenValidationParameters = new()
         {
             ValidateIssuer = true,
@@ -28,5 +34,28 @@ public class JwtBearerOptionsSetup : IConfigureOptions<JwtBearerOptions>
             IssuerSigningKey = new SymmetricSecurityKey(
                 Encoding.UTF8.GetBytes(_jwtOptions.SecretKey))
         };
+    }
+
+    private void CheckOptions()
+    {
+        if (_jwtOptions is null)
+        {
+            throw new ArgumentNullException(nameof(JwtOptions));
+        }
+
+        if(string.IsNullOrWhiteSpace(_jwtOptions.Audience))
+        {
+            throw new ArgumentNullException(nameof(JwtOptions.Audience));
+        }
+
+        if (string.IsNullOrWhiteSpace(_jwtOptions.Issuer))
+        {
+            throw new ArgumentNullException(nameof(JwtOptions.Issuer));
+        }
+
+        if (string.IsNullOrWhiteSpace(_jwtOptions.SecretKey))
+        {
+            throw new ArgumentNullException(nameof(JwtOptions.SecretKey));
+        }
     }
 }
