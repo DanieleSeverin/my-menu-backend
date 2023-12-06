@@ -1,9 +1,6 @@
 using Api.Extensions;
-using Api.OptionsSetup;
 using Application;
 using Infrastructure;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
