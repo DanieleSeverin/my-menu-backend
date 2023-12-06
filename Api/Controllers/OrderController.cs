@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers;
 
+[Authorize]
 [Route("api/[controller]")]
 [ApiController]
 public class OrderController : ControllerBase
@@ -28,7 +29,6 @@ public class OrderController : ControllerBase
         return result.IsSuccess ? Ok() : NotFound(result.Error);
     }
 
-    [Authorize]
     [HttpDelete("{OrderId}")]
     public async Task<IActionResult> CancelOrder(Guid OrderId, CancellationToken cancellationToken)
     {

@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers;
 
+[Authorize]
 [Route("api/[controller]")]
 [ApiController]
 public class OrderItemController : ControllerBase
@@ -21,7 +22,6 @@ public class OrderItemController : ControllerBase
         _sender = sender;
     }
 
-    [Authorize]
     [HttpGet("{BusinessId}")]
     public async Task<IActionResult> GetOrderItemSummary(Guid BusinessId, CancellationToken cancellationToken)
     {
@@ -32,7 +32,6 @@ public class OrderItemController : ControllerBase
         return Ok(result);
     }
 
-    [Authorize]
     [HttpPut("Prepared/{OrderItemId}")]
     public async Task<IActionResult> MarkAsPrepared(Guid OrderItemId, CancellationToken cancellationToken)
     {
@@ -43,7 +42,6 @@ public class OrderItemController : ControllerBase
         return result.IsSuccess ? Ok(result) : NotFound(result.Error);
     }
 
-    [Authorize]
     [HttpPut("Delivered/{OrderItemId}")]
     public async Task<IActionResult> MarkAsDelivered(Guid OrderItemId, CancellationToken cancellationToken)
     {

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers;
 
+[Authorize]
 [Route("api/[controller]")]
 [ApiController]
 public class BusinessController : ControllerBase
@@ -40,7 +41,6 @@ public class BusinessController : ControllerBase
         return result.IsSuccess ? Ok(result) : NotFound(result.Error);
     }
 
-    [Authorize]
     [HttpPost()]
     public async Task<IActionResult> CreateBusiness(CancellationToken cancellationToken)
     {
