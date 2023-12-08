@@ -25,7 +25,12 @@ internal sealed class RegisterUserCommandHandler : ICommandHandler<RegisterUserC
         RegisterUserCommand request,
         CancellationToken cancellationToken)
     {
-        //TODO: validate password
+        var validatedPasswordResult = Password.Validate(request.Password);
+
+        if (validatedPasswordResult.IsFailure)
+        {
+            return Result.Failure<Guid>(validatedPasswordResult.Error!);
+        }
 
         string encryptedPassword = _passwordHasher.Hash(request.Password);
 
