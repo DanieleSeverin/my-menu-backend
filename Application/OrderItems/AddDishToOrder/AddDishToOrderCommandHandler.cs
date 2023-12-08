@@ -12,17 +12,14 @@ internal sealed class AddDishToOrderCommandHandler : ICommandHandler<AddDishToOr
 {
     private readonly ICustomerRepository _customerRepository;
     private readonly IDishRepository _dishRepository;
-    private readonly ITableRepository _tableRepository;
     private readonly IUnitOfWork _unitOfWork;
 
     public AddDishToOrderCommandHandler(ICustomerRepository customerRepository,
                                         IDishRepository dishRepository,
-                                        ITableRepository tableRepository,
                                         IUnitOfWork unitOfWork)
     {
         _customerRepository = customerRepository;
         _dishRepository = dishRepository;
-        _tableRepository = tableRepository;
         _unitOfWork = unitOfWork;
     }
 

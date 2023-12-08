@@ -7,7 +7,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace Infrastructure.Authentication;
+namespace Infrastructure.Authentication.Jwt;
 
 internal sealed class JwtProvider : IJwtProvider
 {
@@ -20,8 +20,8 @@ internal sealed class JwtProvider : IJwtProvider
 
     public Result<string> Generate(User user)
     {
-        var claims = new Claim[] 
-        { 
+        var claims = new Claim[]
+        {
             new(JwtRegisteredClaimNames.Sub, user.Id.Value.ToString()),
             new(JwtRegisteredClaimNames.Email, user.Email.Value),
         };

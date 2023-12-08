@@ -9,7 +9,8 @@ using Domain.OrderItems;
 using Domain.Orders;
 using Domain.Tables;
 using Domain.Users;
-using Infrastructure.Authentication;
+using Infrastructure.Authentication.Jwt;
+using Infrastructure.Authentication.PasswordHandler;
 using Infrastructure.Repositories;
 using Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
@@ -62,5 +63,6 @@ public static class DependencyInjection
         services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<ApplicationDbContext>());
         services.AddScoped<IOrderItemSummary, OrderItemSummary>();
         services.AddScoped<IJwtProvider, JwtProvider>();
+        services.AddScoped<IPasswordHasher, PasswordHasher>();
     }
 }

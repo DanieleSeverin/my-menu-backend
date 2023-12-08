@@ -9,12 +9,15 @@ internal sealed class LogInUserCommandHandler : ICommandHandler<LogInUserCommand
 {
     private readonly IUserRepository _userRepository;
     private readonly IJwtProvider _jwtProvider;
+    private readonly IPasswordHasher _passwordHasher;
 
     public LogInUserCommandHandler(IUserRepository userRepository,
-                                   IJwtProvider jwtProvider)
+                                   IJwtProvider jwtProvider,
+                                   IPasswordHasher passwordHasher)
     {
         _userRepository = userRepository;
         _jwtProvider = jwtProvider;
+        _passwordHasher = passwordHasher;
     }
 
     public async Task<Result<AccessTokenResponse>> Handle(
@@ -31,13 +34,20 @@ internal sealed class LogInUserCommandHandler : ICommandHandler<LogInUserCommand
         }
 
         //TODO: check password
+        (bool verified, bool needsUpgrade) =
+            _passwordHasher.Check(user.Password.Value, request.Password);
+
+        if(!verified)
+        {
+            return Result.Failure<AccessTokenResponse>(UserErrors.InvalidCredentials);
+        }
+
+        if (needsUpgrade)
+        {
+            // TODO
+        }
 
         var accessTokenResult = _jwtProvider.Generate(user);
-
-        //if (accessTokenResult.IsFailure)
-        //{
-        //    return Result.Failure<AccessTokenResponse>(/*todo*/);
-        //}
 
         return new AccessTokenResponse(accessTokenResult.Value);
     }
