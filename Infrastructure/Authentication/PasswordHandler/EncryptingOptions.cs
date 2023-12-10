@@ -1,6 +1,6 @@
 ﻿namespace Infrastructure.Authentication.PasswordHandler;
 
-public class HashingOptions
+public class EncryptingOptions
 {
     public int Iterations { get; set; } = 10000;
 }

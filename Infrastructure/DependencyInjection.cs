@@ -63,6 +63,6 @@ public static class DependencyInjection
         services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<ApplicationDbContext>());
         services.AddScoped<IOrderItemSummary, OrderItemSummary>();
         services.AddScoped<IJwtProvider, JwtProvider>();
-        services.AddScoped<IPasswordHasher, PasswordHasher>();
+        services.AddScoped<IPasswordEncrypter, PasswordEncrypter>();
     }
 }

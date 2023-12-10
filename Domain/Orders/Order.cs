@@ -21,7 +21,6 @@ public class Order
         CustomerId = customerId;
         Sent = false;
         Canceled = false;
-        _items = new List<OrderItem>();
     }
 
     public void Add(OrderItem item)

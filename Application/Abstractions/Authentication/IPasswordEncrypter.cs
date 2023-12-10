@@ -1,6 +1,6 @@
 ﻿namespace Application.Abstractions.Authentication;
 
-public interface IPasswordHasher
+public interface IPasswordEncrypter
 {
     public abstract string Hash(string password);
 

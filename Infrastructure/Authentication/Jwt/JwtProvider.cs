@@ -1,5 +1,6 @@
 ﻿using Application.Abstractions.Authentication;
 using Domain.Abstractions;
+using Domain.Tokens;
 using Domain.Users;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -19,7 +20,7 @@ internal sealed class JwtProvider : IJwtProvider
         _options = options.Value;
     }
 
-    public Result<string> GenerateAccessToken(User user)
+    public Result<AccessToken> GenerateAccessToken(User user)
     {
         var claims = new Claim[]
         {
@@ -42,15 +43,15 @@ internal sealed class JwtProvider : IJwtProvider
 
         string tokenValue = new JwtSecurityTokenHandler().WriteToken(token);
 
-        return Result.Success(tokenValue);
+        return Result.Success(new AccessToken(tokenValue) );
     }
 
-    public Result<string> GenerateRefreshToken()
+    public Result<RefreshToken> GenerateRefreshToken(User user)
     {
         var randomNumber = new byte[64];
         using var rng = RandomNumberGenerator.Create();
         rng.GetBytes(randomNumber);
         string refreshToken = Convert.ToBase64String(randomNumber);
-        return Result.Success(refreshToken);
+        return Result.Success(new RefreshToken(refreshToken, user.Id) );
     }
 }

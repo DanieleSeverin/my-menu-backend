@@ -31,5 +31,9 @@ internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
             .HasMaxLength(500)
             .HasConversion(password => password.Value, value => new Password(value));
 
+        builder.HasMany(user => user.RefreshTokens)
+            .WithOne()
+            .HasForeignKey(token => token.UserId)
+            .HasPrincipalKey(user => user.Id);
     }
 }

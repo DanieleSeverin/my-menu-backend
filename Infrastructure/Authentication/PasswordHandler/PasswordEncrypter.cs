@@ -4,17 +4,17 @@ using System.Security.Cryptography;
 
 namespace Infrastructure.Authentication.PasswordHandler;
 
-public class PasswordHasher : IPasswordHasher
+public class PasswordEncrypter : IPasswordEncrypter
 {
     private const int SaltSize = 16; // 128 bit 
     private const int KeySize = 32; // 256 bit
 
-    public PasswordHasher(IOptions<HashingOptions> options)
+    public PasswordEncrypter(IOptions<EncryptingOptions> options)
     {
         Options = options.Value;
     }
 
-    private HashingOptions Options { get; }
+    private EncryptingOptions Options { get; }
 
     public (bool Verified, bool NeedsUpgrade) Check(string hash, string password)
     {

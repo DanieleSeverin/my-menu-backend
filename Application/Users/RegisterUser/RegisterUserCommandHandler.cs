@@ -9,12 +9,12 @@ internal sealed class RegisterUserCommandHandler : ICommandHandler<RegisterUserC
 {
     private readonly IUserRepository _userRepository;
     private readonly IUnitOfWork _unitOfWork;
-    private readonly IPasswordHasher _passwordHasher;
+    private readonly IPasswordEncrypter _passwordHasher;
 
     public RegisterUserCommandHandler(
         IUserRepository userRepository,
         IUnitOfWork unitOfWork,
-        IPasswordHasher passwordHasher)
+        IPasswordEncrypter passwordHasher)
     {
         _userRepository = userRepository;
         _unitOfWork = unitOfWork;
