@@ -1,4 +1,5 @@
-﻿using Infrastructure.Authentication.Jwt;
+﻿using Api.Costants;
+using Infrastructure.Authentication.Jwt;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -33,6 +34,18 @@ public class JwtBearerOptionsSetup : IConfigureNamedOptions<JwtBearerOptions>
             ValidAudience = _jwtOptions.Audience,
             IssuerSigningKey = new SymmetricSecurityKey(
                 Encoding.UTF8.GetBytes(_jwtOptions.SecretKey))
+        };
+
+        options.Events ??= new JwtBearerEvents();
+
+        options.Events.OnMessageReceived = context => {
+
+            if (context.Request.Cookies.ContainsKey(CookieNames.AccessToken))
+            {
+                context.Token = context.Request.Cookies[CookieNames.AccessToken];
+            }
+
+            return Task.CompletedTask;
         };
     }
 

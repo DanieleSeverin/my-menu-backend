@@ -5,7 +5,7 @@ using Domain.Users;
 
 namespace Application.Users.LogInUser;
 
-internal sealed class LogInUserCommandHandler : ICommandHandler<LogInUserCommand, AccessTokenResponse>
+internal sealed class LogInUserCommandHandler : ICommandHandler<LogInUserCommand, LogInResponse>
 {
     private readonly IUserRepository _userRepository;
     private readonly IJwtProvider _jwtProvider;
@@ -20,7 +20,7 @@ internal sealed class LogInUserCommandHandler : ICommandHandler<LogInUserCommand
         _passwordHasher = passwordHasher;
     }
 
-    public async Task<Result<AccessTokenResponse>> Handle(
+    public async Task<Result<LogInResponse>> Handle(
         LogInUserCommand request,
         CancellationToken cancellationToken)
     {
@@ -30,16 +30,15 @@ internal sealed class LogInUserCommandHandler : ICommandHandler<LogInUserCommand
 
         if(user is null)
         {
-            return Result.Failure<AccessTokenResponse>(UserErrors.InvalidCredentials);
+            return Result.Failure<LogInResponse>(UserErrors.InvalidCredentials);
         }
 
-        //TODO: check password
         (bool verified, bool needsUpgrade) =
             _passwordHasher.Check(user.Password.Value, request.Password);
 
         if(!verified)
         {
-            return Result.Failure<AccessTokenResponse>(UserErrors.InvalidCredentials);
+            return Result.Failure<LogInResponse>(UserErrors.InvalidCredentials);
         }
 
         if (needsUpgrade)
@@ -47,8 +46,11 @@ internal sealed class LogInUserCommandHandler : ICommandHandler<LogInUserCommand
             // TODO
         }
 
-        var accessTokenResult = _jwtProvider.Generate(user);
+        var accessTokenResult = _jwtProvider.GenerateAccessToken(user);
+        var refreshTokenResult = _jwtProvider.GenerateRefreshToken();
 
-        return new AccessTokenResponse(accessTokenResult.Value);
+        //TODO: store refresh token on db
+
+        return new LogInResponse(accessTokenResult.Value, refreshTokenResult.Value);
     }
 }

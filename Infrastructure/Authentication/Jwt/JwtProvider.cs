@@ -5,6 +5,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace Infrastructure.Authentication.Jwt;
@@ -18,7 +19,7 @@ internal sealed class JwtProvider : IJwtProvider
         _options = options.Value;
     }
 
-    public Result<string> Generate(User user)
+    public Result<string> GenerateAccessToken(User user)
     {
         var claims = new Claim[]
         {
@@ -42,5 +43,14 @@ internal sealed class JwtProvider : IJwtProvider
         string tokenValue = new JwtSecurityTokenHandler().WriteToken(token);
 
         return Result.Success(tokenValue);
+    }
+
+    public Result<string> GenerateRefreshToken()
+    {
+        var randomNumber = new byte[64];
+        using var rng = RandomNumberGenerator.Create();
+        rng.GetBytes(randomNumber);
+        string refreshToken = Convert.ToBase64String(randomNumber);
+        return Result.Success(refreshToken);
     }
 }

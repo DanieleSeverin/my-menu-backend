@@ -1,4 +1,5 @@
-﻿using Application.Users.LogInUser;
+﻿using Api.Costants;
+using Application.Users.LogInUser;
 using Application.Users.RegisterUser;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -55,6 +56,41 @@ public class UsersController : ControllerBase
             return Unauthorized(result.Error);
         }
 
-        return Ok(result.Value);
+        HttpContext.Response.Cookies.Append(
+            CookieNames.AccessToken, 
+            result.Value.AccessToken, 
+            new CookieOptions 
+            { 
+                HttpOnly = true, 
+                SameSite = SameSiteMode.Strict 
+            });
+
+        HttpContext.Response.Cookies.Append(
+            CookieNames.RefreshToken,
+            result.Value.RefreshToken,
+            new CookieOptions 
+            { 
+                HttpOnly = true,
+                Path = "/api/users/refresh",
+                SameSite = SameSiteMode.Strict
+            });
+
+        return Ok();
+    }
+
+    [AllowAnonymous]
+    [HttpPost("refresh")]
+    public async Task<IActionResult> Refresh(
+        CancellationToken cancellationToken)
+    {
+        //TODO
+        string? refreshToken = HttpContext.Request.Cookies[CookieNames.RefreshToken];
+
+        if(refreshToken is null)
+        {
+            return Unauthorized();
+        }
+
+        return Ok(refreshToken);
     }
 }
